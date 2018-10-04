@@ -8,6 +8,7 @@
 
 import UIKit
 import StoreKit
+import Flurry_iOS_SDK
 
 enum InAppPurchaseItem: String {
     case consumableItem = "com.yahoo.flurryiap.flurry_test_consumable"
@@ -19,11 +20,25 @@ enum InAppPurchaseItem: String {
 
 class RevenueTableViewController: UITableViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver {
    
+    @IBOutlet weak var autoLogSwitch: UISwitch!
+    
     var verifiedProducts = [SKProduct]()
     let paymentQueue = SKPaymentQueue.default()
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // check switch status
+        if let status = defaults.object(forKey: "isAuto") as? Bool {
+            autoLogSwitch.setOn(status, animated: true)
+        } else {
+            print("not found, first time")
+            // first launch, set it to true as default
+            autoLogSwitch.setOn(true, animated: true)
+            defaults.set(true, forKey: "isAuto")
+            Flurry.setIAPReportingEnabled(true)
+        }
         
         let products: Set = [InAppPurchaseItem.consumableItem.rawValue,
                              InAppPurchaseItem.nonConsumableItem.rawValue,
@@ -116,5 +131,12 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         purchase(product: verifiedProducts[indexPath.row])
+    }
+    
+    // MARK: - switch action
+    @IBAction func updateAutoLogSwitch(_ sender: UISwitch) {
+        print("value changed")
+        Flurry.setIAPReportingEnabled(sender.isOn)
+        defaults.set(sender.isOn, forKey: "isAuto")
     }
 }
