@@ -42,13 +42,13 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     }
     
     // purchase the item
-    func purchase(product: InAppPurchaseItem) {
-        guard let productToPurchase = verifiedProducts.filter({$0.productIdentifier == product.rawValue}).first else {return}
-        // add this payment to the payment queue
-        let payment = SKPayment(product: productToPurchase)
-        paymentQueue.add(payment)
+    func purchase(product: SKProduct) {
+        if SKPaymentQueue.canMakePayments() {
+            // add this payment to the payment queue
+            let payment = SKPayment(product: product)
+            paymentQueue.add(payment)
+        }
     }
-
 
     // MARK: - delegate mehod for SKProductRequestDelegate
     // Accepts the reponse from app store that contains the request products information
@@ -113,5 +113,8 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
         cell.detailTextLabel?.text = numberFormatter.string(from: product.price)
         return cell
     }
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        purchase(product: verifiedProducts[indexPath.row])
+    }
 }
