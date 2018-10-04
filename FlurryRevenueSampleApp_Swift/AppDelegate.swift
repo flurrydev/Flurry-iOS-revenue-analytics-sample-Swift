@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Flurry_iOS_SDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // get flurry infomation in the file "FlurryMarketingConfig.plist" and start flurry session
+        if let path = Bundle.main.path(forResource: "FlurryRevenueConfig", ofType: "plist") {
+            let info = NSDictionary(contentsOfFile: path)
+            let builder = FlurrySessionBuilder.init()
+                .withLogLevel(FlurryLogLevelAll)
+                .withAppVersion(info?.object(forKey: "appVersion") as! String)
+                .withCrashReporting(info?.object(forKey: "enableCrashReport") as! Bool)
+                .withSessionContinueSeconds(info?.object(forKey: "sessionSeconds") as! Int)
+                .withIncludeBackgroundSessions(inMetrics: true)
+            Flurry.startSession(info?.object(forKey: "apiKey") as! String, with: builder)
+        } else {
+            print("please check your plist file")
+        }
         return true
     }
 

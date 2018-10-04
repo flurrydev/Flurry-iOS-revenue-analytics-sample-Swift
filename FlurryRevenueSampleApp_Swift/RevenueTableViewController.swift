@@ -10,18 +10,12 @@ import UIKit
 import StoreKit
 import Flurry_iOS_SDK
 
-enum InAppPurchaseItem: String {
-    case consumableItem = "com.yahoo.flurryiap.flurry_test_consumable"
-    case nonConsumableItem = "com.yahoo.flurryiap.flurry_test_nonconsumable"
-    case autoRenewSubscription = "com.yahoo.flurryiap.flurry_test_autorenew"
-    case freeItem = "com.yahoo.flurryiap.flurry_test_subscription_free"
-    case nonRenewSubscription = "com.yahoo.flurryiap.flurry_test_subscription_nonrenew"
-}
 
 class RevenueTableViewController: UITableViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver {
    
     @IBOutlet weak var autoLogSwitch: UISwitch!
     
+    var products = [String]()
     var verifiedProducts = [SKProduct]()
     let paymentQueue = SKPaymentQueue.default()
     let defaults = UserDefaults.standard
@@ -29,30 +23,32 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // check switch status
-        if let status = defaults.object(forKey: "isAuto") as? Bool {
-            autoLogSwitch.setOn(status, animated: true)
-        } else {
-            print("not found, first time")
-            // first launch, set it to true as default
-            autoLogSwitch.setOn(true, animated: true)
-            defaults.set(true, forKey: "isAuto")
-            Flurry.setIAPReportingEnabled(true)
+        // fetch products id from plist file
+        
+        if let path = Bundle.main.path(forResource: "products", ofType: "plist") {
+            let info = NSDictionary(contentsOfFile: path)
+            let array: Array = info?.object(forKey: "products") as! Array<String>
+            self.products = array
         }
         
-        let products: Set = [InAppPurchaseItem.consumableItem.rawValue,
-                             InAppPurchaseItem.nonConsumableItem.rawValue,
-                             InAppPurchaseItem.autoRenewSubscription.rawValue,
-                             InAppPurchaseItem.nonRenewSubscription.rawValue,
-                             InAppPurchaseItem.freeItem.rawValue]
+        let productSet: Set = Set(self.products)
         
         // init request
-        let request = SKProductsRequest(productIdentifiers: products)
+        let request = SKProductsRequest(productIdentifiers: productSet)
         request.delegate = self
         request.start()
         
         // add self as an observer, be notified if one or more transactons are being updated
         paymentQueue.add(self)
+        
+        // record toggle position
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "isAuto") != nil {
+            autoLogSwitch.setOn(defaults.bool(forKey: "isAuto"), animated: true)
+        } else {
+            autoLogSwitch.setOn(true, animated: true)
+            Flurry.setIAPReportingEnabled(true)
+        }
 
     }
     
@@ -81,27 +77,35 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
-            case SKPaymentTransactionState.purchased:
+            case SKPaymentTransactionState.purchased, SKPaymentTransactionState.restored:
                 print("Transaction completed successfully.")
                 print(transaction.payment.productIdentifier)
+                if autoLogSwitch.isOn {
+                    displayAlertWithTitle(title: "Success", message: "Payment went through successfully")
+                } else {
+                    Flurry.logPaymentTransaction(transaction) { (status) in
+                        print("\(status)")
+                    }
+                }
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
                 
             case SKPaymentTransactionState.failed:
                 print("Transaction Failed");
-                print(transaction.error.debugDescription )
                 print(transaction.payment.productIdentifier)
-                SKPaymentQueue.default().finishTransaction(transaction)
-                break
-                
-            case SKPaymentTransactionState.restored:
-                print("Transaction completed successfully.")
-                print(transaction.payment.productIdentifier)
+                if autoLogSwitch.isOn {
+                    displayAlertWithTitle(title: "Failed", message: "Payment did not go through successfully. Error: \(transaction.error.debugDescription)")
+                } else {
+                    Flurry.logPaymentTransaction(transaction) { (status) in
+                        print("status : \(status)")
+                    }
+                }
                 SKPaymentQueue.default().finishTransaction(transaction)
                 break
                 
             default:
-                NSLog(String(transaction.transactionState.rawValue))
+                print(String(transaction.transactionState.rawValue))
+                print(transaction.payment.productIdentifier)
                 break
             }
         }
@@ -138,5 +142,18 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
         print("value changed")
         Flurry.setIAPReportingEnabled(sender.isOn)
         defaults.set(sender.isOn, forKey: "isAuto")
+    }
+    
+    // MARK: - alert
+    func displayAlertWithTitle(title: String, message: String?) -> Void {
+        // set alert controller
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        self.present(alertController, animated: true, completion: {
+        let delay = DispatchTime.now() + 3
+            DispatchQueue.main.asyncAfter(deadline: delay){
+                alertController.dismiss(animated: true, completion: nil)
+            }
+        })
+        
     }
 }

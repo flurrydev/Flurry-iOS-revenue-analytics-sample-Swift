@@ -13,6 +13,8 @@
 		76D3353A216543790085DB7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76D33538216543790085DB7D /* LaunchScreen.storyboard */; };
 		76D335422165442C0085DB7D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D335412165442C0085DB7D /* StoreKit.framework */; };
 		76D33544216545180085DB7D /* RevenueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D33543216545180085DB7D /* RevenueTableViewController.swift */; };
+		76D3354E216684040085DB7D /* products.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76D3354D216684040085DB7D /* products.plist */; };
+		76D3355021668AC10085DB7D /* FlurryRevenueConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76D3354F21668AC10085DB7D /* FlurryRevenueConfig.plist */; };
 		E31DBFD9848A1EA34EEBAC58 /* Pods_FlurryRevenueSampleApp_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F107E81E72174D3E6D94A0A8 /* Pods_FlurryRevenueSampleApp_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +29,8 @@
 		76D3353B216543790085DB7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76D335412165442C0085DB7D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		76D33543216545180085DB7D /* RevenueTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueTableViewController.swift; sourceTree = "<group>"; };
+		76D3354D216684040085DB7D /* products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = products.plist; sourceTree = "<group>"; };
+		76D3354F21668AC10085DB7D /* FlurryRevenueConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = FlurryRevenueConfig.plist; sourceTree = "<group>"; };
 		F107E81E72174D3E6D94A0A8 /* Pods_FlurryRevenueSampleApp_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlurryRevenueSampleApp_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -65,8 +69,10 @@
 			isa = PBXGroup;
 			children = (
 				76D3352F216543780085DB7D /* AppDelegate.swift */,
+				76D3354F21668AC10085DB7D /* FlurryRevenueConfig.plist */,
 				76D33533216543780085DB7D /* Main.storyboard */,
 				76D33543216545180085DB7D /* RevenueTableViewController.swift */,
+				76D3354D216684040085DB7D /* products.plist */,
 				76D33536216543790085DB7D /* Assets.xcassets */,
 				76D33538216543790085DB7D /* LaunchScreen.storyboard */,
 				76D3353B216543790085DB7D /* Info.plist */,
@@ -157,7 +163,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D3354E216684040085DB7D /* products.plist in Resources */,
 				76D3353A216543790085DB7D /* LaunchScreen.storyboard in Resources */,
+				76D3355021668AC10085DB7D /* FlurryRevenueConfig.plist in Resources */,
 				76D33537216543790085DB7D /* Assets.xcassets in Resources */,
 				76D33535216543780085DB7D /* Main.storyboard in Resources */,
 			);

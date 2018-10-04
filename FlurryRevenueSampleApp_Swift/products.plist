@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>products</key>
+	<array>
+		<string>com.yahoo.flurryiap.flurry_test_consumable</string>
+		<string>com.yahoo.flurryiap.flurry_test_nonconsumable</string>
+		<string>com.yahoo.flurryiap.flurry_test_autorenew</string>
+		<string>com.yahoo.flurryiap.flurry_test_subscription_nonrenew</string>
+		<string>com.yahoo.flurryiap.flurry_test_subscription_free</string>
+	</array>
+</dict>
+</plist>
