@@ -36,9 +36,11 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
         // init request
         let request = SKProductsRequest(productIdentifiers: productSet)
         request.delegate = self
+        
+        // send the request to the App Store
         request.start()
         
-        // add self as an observer, be notified if one or more transactons are being updated
+        // add self as an observer, be notified if one or more transactions are being updated
         paymentQueue.add(self)
         
         // record toggle position
@@ -55,7 +57,7 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     // purchase the item
     func purchase(product: SKProduct) {
         if SKPaymentQueue.canMakePayments() {
-            // add this payment to the payment queue
+            // create a payment and add this payment to the payment queue
             let payment = SKPayment(product: product)
             paymentQueue.add(payment)
         }
