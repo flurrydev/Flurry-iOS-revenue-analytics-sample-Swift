@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -197,17 +197,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FlurryRevenueSampleApp_Swift/Pods-FlurryRevenueSampleApp_Swift-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Flurry-iOS-SDK/Flurry_iOS_SDK.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FlurryRevenueSampleApp_Swift/Pods-FlurryRevenueSampleApp_Swift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flurry_iOS_SDK.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FlurryRevenueSampleApp_Swift/Pods-FlurryRevenueSampleApp_Swift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlurryRevenueSampleApp_Swift/Pods-FlurryRevenueSampleApp_Swift-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FlurryRevenueSampleApp_Swift/Pods-FlurryRevenueSampleApp_Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -375,7 +374,7 @@
 				PROVISIONING_PROFILE = "90924482-c3bc-4f58-bb4c-48acf8054b84";
 				PROVISIONING_PROFILE_SPECIFIER = FlurryIAPDeveloper;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -396,7 +395,7 @@
 				PROVISIONING_PROFILE = "90924482-c3bc-4f58-bb4c-48acf8054b84";
 				PROVISIONING_PROFILE_SPECIFIER = FlurryIAPDeveloper;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

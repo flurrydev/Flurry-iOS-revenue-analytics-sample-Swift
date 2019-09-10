@@ -71,7 +71,10 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
             print("verified product: \(product.localizedTitle)")
         }
         print(verifiedProducts.count)
-        tableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - delegate mehod for SKPaymentTransactionObserver
