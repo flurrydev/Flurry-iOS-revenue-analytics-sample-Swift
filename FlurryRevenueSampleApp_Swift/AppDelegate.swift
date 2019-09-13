@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // get flurry infomation in the file "FlurryMarketingConfig.plist" and start flurry session
         if let path = Bundle.main.path(forResource: "FlurryRevenueConfig", ofType: "plist") {
             let info = NSDictionary(contentsOfFile: path)
