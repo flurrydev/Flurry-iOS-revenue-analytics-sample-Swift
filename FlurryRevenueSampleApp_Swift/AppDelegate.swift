@@ -20,12 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = Bundle.main.path(forResource: "FlurryRevenueConfig", ofType: "plist") {
             let info = NSDictionary(contentsOfFile: path)
             let builder = FlurrySessionBuilder.init()
-                .withLogLevel(FlurryLogLevelAll)
-                .withAppVersion(info?.object(forKey: "appVersion") as! String)
-                .withCrashReporting(info?.object(forKey: "enableCrashReport") as! Bool)
-                .withSessionContinueSeconds(info?.object(forKey: "sessionSeconds") as! Int)
-                .withIncludeBackgroundSessions(inMetrics: true)
-            Flurry.startSession(info?.object(forKey: "apiKey") as! String, with: builder)
+                .build(logLevel: .all)
+                .build(appVersion: info?.object(forKey: "appVersion") as! String)
+                .build(crashReportingEnabled: info?.object(forKey: "enableCrashReport") as! Bool)
+                .build(sessionContinueSeconds: info?.object(forKey: "sessionSeconds") as! Int)
+            Flurry.startSession(apiKey: info?.object(forKey: "apiKey") as! String, sessionBuilder: builder)
         } else {
             print("please check your plist file")
         }

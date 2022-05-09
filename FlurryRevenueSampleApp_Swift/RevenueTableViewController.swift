@@ -49,7 +49,7 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
             autoLogSwitch.setOn(defaults.bool(forKey: "isAuto"), animated: true)
         } else {
             autoLogSwitch.setOn(true, animated: true)
-            Flurry.setIAPReportingEnabled(true)
+            Flurry.set(iapReportingEnabled: true)
         }
 
     }
@@ -88,7 +88,7 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
                 if autoLogSwitch.isOn {
                     displayAlertWithTitle(title: "Success", message: "Payment went through successfully")
                 } else {
-                    Flurry.logPaymentTransaction(transaction) { (status) in
+                    Flurry.log(transaction: transaction) { (status) in
                         print("\(status)")
                     }
                 }
@@ -101,7 +101,7 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
                 if autoLogSwitch.isOn {
                     displayAlertWithTitle(title: "Failed", message: "Payment did not go through successfully. Error: \(transaction.error.debugDescription)")
                 } else {
-                    Flurry.logPaymentTransaction(transaction) { (status) in
+                    Flurry.log(transaction: transaction) { (status) in
                         print("status : \(status)")
                     }
                 }
@@ -145,7 +145,7 @@ class RevenueTableViewController: UITableViewController, SKProductsRequestDelega
     // MARK: - switch action
     @IBAction func updateAutoLogSwitch(_ sender: UISwitch) {
         print("value changed")
-        Flurry.setIAPReportingEnabled(sender.isOn)
+        Flurry.set(iapReportingEnabled: sender.isOn)
         defaults.set(sender.isOn, forKey: "isAuto")
     }
     
